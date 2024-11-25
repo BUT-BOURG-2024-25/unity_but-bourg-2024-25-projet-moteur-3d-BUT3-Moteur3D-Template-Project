@@ -1,4 +1,4 @@
-using TMPro; 
+using TMPro;
 using UnityEngine;
 
 public class PortalManager : MonoBehaviour
@@ -6,6 +6,8 @@ public class PortalManager : MonoBehaviour
     public GameObject portalPrefab; // Le prefab du portail
     public Material redMaterial; // Matériau rouge
     public Material blueMaterial; // Matériau bleu
+    public float portalSpacing = 2f; // Espacement entre les portails
+    public int numberOfPortals = 2; // Nombre de portails à générer
 
     public void SpawnPortal(Vector3 position)
     {
@@ -22,7 +24,7 @@ public class PortalManager : MonoBehaviour
         }
 
         // Configure le texte
-        TextMeshPro text = newPortal.GetComponentInChildren<TextMeshPro>(); 
+        TextMeshPro text = newPortal.GetComponentInChildren<TextMeshPro>();
         if (text != null)
         {
             // Génère un symbole et une valeur
@@ -38,7 +40,7 @@ public class PortalManager : MonoBehaviour
             else
             {
                 randomSymbol = symbols[Random.Range(1, 3)];
-                if (randomSymbol == "*")
+                if (randomSymbol == "x")
                 {
                     randomValue = Random.Range(1, 4); // Valeur entre 1 et 3
                 }
@@ -47,7 +49,7 @@ public class PortalManager : MonoBehaviour
                     randomValue = Random.Range(1, 11); // Valeur aléatoire de 1 à 10
                 }
             }
-            
+
             // Met à jour le texte
             text.text = $"{randomSymbol} {randomValue}";
         }
@@ -55,12 +57,14 @@ public class PortalManager : MonoBehaviour
 
     void Start()
     {
-        Vector3 startPosition = new Vector3(0, 0, 0);
-        float distanceBetweenPortals = 2.2f;
-        for (int i = 0; i < 2; i++)
-        {
-            Vector3 position = startPosition + new Vector3(i * distanceBetweenPortals, 0, 0);
-            SpawnPortal(position);
-        }
+        // Récupère les informations de l'objet appelant
+        Vector3 startPosition = transform.position; // Position de l'objet
+        Vector3 size = GetComponent<Renderer>().bounds.size; // Taille de l'objet
+
+        Vector3 portalPosition1 = startPosition + new Vector3(-1, 0.5f, 0);
+        SpawnPortal(portalPosition1);
+
+        Vector3 portalPosition2 = startPosition + new Vector3(1, 0.5f, 0);
+        SpawnPortal(portalPosition2);
     }
 }
