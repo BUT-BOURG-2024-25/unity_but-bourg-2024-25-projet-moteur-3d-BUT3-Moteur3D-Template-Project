@@ -33,7 +33,7 @@ public class TileManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerTransform.position.z - 35 > zSpawn - (numberOfTiles * tileLength))
+        if (playerTransform.position.z -35 > zSpawn - (numberOfTiles * tileLength))
         {
             SpawnTiles(Random.Range(0, tilePrefabs.Length));
             DeleteTile();
@@ -42,10 +42,12 @@ public class TileManager : MonoBehaviour
 
     public void SpawnTiles(int tileIndex)
     {
-        GameObject go = Instantiate(tilePrefabs[tileIndex], transform.forward * zSpawn, transform.rotation);
+        Vector3 spawnPosition = new Vector3(0, 0, zSpawn); // Aligner sur l'axe Z
+        GameObject go = Instantiate(tilePrefabs[tileIndex], spawnPosition, Quaternion.identity); // Pas de rotation inutile
         activeTiles.Add(go);
-        zSpawn += tileLength;
+        zSpawn += tileLength; // Avancer de la longueur exacte de la tuile
     }
+
 
     private void DeleteTile()
     {
