@@ -18,6 +18,7 @@ public class FallowPlayer : MonoBehaviour
         // Trouver le joueur dans la scène
         player = GameObject.FindWithTag("Player");
         rb = GetComponent<Rigidbody>();
+
     }
 
     // Update is called once per frame
