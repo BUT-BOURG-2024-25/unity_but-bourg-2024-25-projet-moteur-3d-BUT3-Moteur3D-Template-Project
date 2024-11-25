@@ -15,10 +15,10 @@ public class EnemyGroup : MonoBehaviour
     {
         enemyCount = initialEnemyCount;
         StartCoroutine(SpawnEnemies());
-        foreach (Transform child in transform)
-        {
-            enemies.Add(child.gameObject);
-        }
+        //foreach (Transform child in transform)
+        //{
+        //    enemies.Add(child.gameObject);
+        //}
     }
 
     void Update()
