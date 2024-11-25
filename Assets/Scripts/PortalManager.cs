@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class PortalManager : MonoBehaviour
     public Material blueMaterial; // Matériau bleu
     public float portalSpacing = 2f; // Espacement entre les portails
     public int numberOfPortals = 2; // Nombre de portails à générer
+
+    private List<GameObject> portals = new List<GameObject>(); // Liste des portails générés pour ce segment
 
     public void SpawnPortal(Vector3 position)
     {
@@ -53,18 +56,18 @@ public class PortalManager : MonoBehaviour
             // Met à jour le texte
             text.text = $"{randomSymbol} {randomValue}";
         }
+
+        portals.Add(newPortal); // Ajoute le portail à la liste
     }
 
-    void Start()
+    public void DestroyPortals()
     {
-        // Récupère les informations de l'objet appelant
-        Vector3 startPosition = transform.position; // Position de l'objet
-        Vector3 size = GetComponent<Renderer>().bounds.size; // Taille de l'objet
+        // Détruit tous les portails associés à ce segment de sol
+        foreach (GameObject portal in portals)
+        {
+            Destroy(portal);
+        }
 
-        Vector3 portalPosition1 = startPosition + new Vector3(-1, 0.5f, 0);
-        SpawnPortal(portalPosition1);
-
-        Vector3 portalPosition2 = startPosition + new Vector3(1, 0.5f, 0);
-        SpawnPortal(portalPosition2);
+        portals.Clear(); // Vide la liste après suppression
     }
 }
