@@ -1,12 +1,12 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemyGroup : MonoBehaviour
 {
     public List<GameObject> enemies = new List<GameObject>();
     public Transform target;
     public float followSpeed = 2f;
-
     void Start()
     {
         foreach (Transform child in transform)
@@ -32,5 +32,6 @@ public class EnemyGroup : MonoBehaviour
     public void RemoveEnemy(GameObject enemy)
     {
         enemies.Remove(enemy);
+        Destroy(enemy);
     }
 }
