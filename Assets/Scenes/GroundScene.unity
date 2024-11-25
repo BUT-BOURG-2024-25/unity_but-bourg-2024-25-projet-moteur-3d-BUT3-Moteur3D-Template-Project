@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62683276d2c04974d9de39c4ed7b5195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solPrefab: {fileID: 5452839396093700225, guid: ca802db1f0345a24a8575d4944756948, type: 3}
+  solPrefab: {fileID: 6038431428744447978, guid: 28656e9055d4d4949adbe4b255543670, type: 3}
   segmentLength: 20
   spawnDistance: 10
   deleteDistance: -10
