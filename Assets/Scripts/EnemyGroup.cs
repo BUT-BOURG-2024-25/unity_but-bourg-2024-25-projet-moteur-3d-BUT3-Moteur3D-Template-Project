@@ -1,30 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EnemyGroup : MonoBehaviour
 {
     public List<GameObject> enemies = new List<GameObject>();
     public Transform target;
     public float followSpeed = 2f;
-    // Start is called before the first frame update
+
     void Start()
     {
-        foreach(Transform child in transform)
+        foreach (Transform child in transform)
         {
             enemies.Add(child.gameObject);
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(target != null)
+        if (target != null)
         {
             Vector3 direction = (target.position - transform.position).normalized;
-            transform.position+=direction*followSpeed*Time.deltaTime;
+            transform.position += direction * followSpeed * Time.deltaTime;
         }
-        if(enemies.Count == 0)
+
+        if (enemies.Count == 0)
         {
             Destroy(gameObject);
         }
@@ -33,6 +32,5 @@ public class EnemyGroup : MonoBehaviour
     public void RemoveEnemy(GameObject enemy)
     {
         enemies.Remove(enemy);
-        Destroy(enemy);
     }
 }
