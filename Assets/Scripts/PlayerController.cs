@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 direction;
     private int desiredLane = 1;//0 gauche 1 milieu 2 droite
     public float laneDistance = 4;
+
+    public float jumpForce;
+    public float Gravity = -20;
     
     public float forwardSpeed;
     void Start()
@@ -21,7 +24,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         direction.z = forwardSpeed;
-
+        direction.y += Gravity * Time.deltaTime;
+        if (controller.isGrounded)
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                Jump();
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -52,11 +62,38 @@ public class PlayerController : MonoBehaviour
             targetPosition += Vector3.right * laneDistance;
         }
 
-        transform.position = targetPosition;
+        if (transform.position == targetPosition)
+        {
+            return;
+        }
+        Vector3 diff = targetPosition - transform.position;
+        Vector3 moveDir = diff.normalized * (25 * Time.deltaTime);
+        if (moveDir.sqrMagnitude < diff.sqrMagnitude)
+        {
+            controller.Move(moveDir);
+        }
+        else
+        {
+            controller.Move(diff);
+        }
     }
 
     private void FixedUpdate()
     {
         controller.Move(direction * Time.fixedDeltaTime);
+    }
+
+    private void Jump()
+    {
+     direction.y = jumpForce;
+     
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.transform.CompareTag("Obstacle"))
+        {
+            PlayerManager.GameOver = true;
+        }
     }
 }
