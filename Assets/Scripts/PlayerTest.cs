@@ -10,15 +10,14 @@ public class PlayerTest : MonoBehaviour
 
     }
 
+    
+
     // Update is called once per frame
     void Update()
     {
         
-        if (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.W))
-        {
-            
-            transform.Translate(Vector3.forward * Time.deltaTime);
-        }
+        transform.Translate(Vector3.forward * 5 * Time.deltaTime);
+        
         if (Input.GetKey(KeyCode.S))
         {
             
@@ -33,12 +32,6 @@ public class PlayerTest : MonoBehaviour
         {
            
             transform.Translate(Vector3.right * Time.deltaTime);
-        }
-
-        
-        if (Input.GetMouseButtonDown(0)) // Clic gauche
-        {
-            Debug.Log("Clic gauche détecté");
         }
     }
 }

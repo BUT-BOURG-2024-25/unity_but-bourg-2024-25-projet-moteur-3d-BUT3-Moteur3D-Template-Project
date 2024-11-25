@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3439409853847869898}
   - component: {fileID: 887729777697040340}
   - component: {fileID: -6416665248347565836}
-  m_Layer: 0
+  - component: {fileID: 6558974906136648302}
+  m_Layer: 6
   m_Name: Soldat
-  m_TagString: Untagged
+  m_TagString: Soldat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,3 +136,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &6558974906136648302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495128831046789526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e786633f9fe544c8213ec18044bc79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5

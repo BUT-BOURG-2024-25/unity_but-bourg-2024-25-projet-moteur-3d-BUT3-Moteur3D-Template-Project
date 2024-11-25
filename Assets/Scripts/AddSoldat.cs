@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine;
-
 public class AddSoldat : MonoBehaviour
 {
     [SerializeField]
@@ -20,53 +20,76 @@ public class AddSoldat : MonoBehaviour
     private int maxAttempts = 10;
 
     private Transform playerTransform;
-    private Transform groupSoldatTransform;
 
     // Start is called before the first frame update
     void Start()
     {
         playerTransform = GameObject.FindWithTag("Player").transform;
-        groupSoldatTransform = GameObject.Find("groupSoldat").transform;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (Input.GetMouseButtonDown(0)) // Clic gauche
+        if (other.gameObject.CompareTag("Portal"))
         {
-            SpawnObjectNearPlayer();
-        }
-    }
+            // Récupérer l'action depuis le portail
+            string action = other.gameObject.GetComponent<Portal>().getPortalAction();
 
-    private void SpawnObjectNearPlayer()
-    {
-        Vector3 spawnPosition = Vector3.zero;
-        bool positionFound = false;
+            // Découper la chaîne en deux parties : symbole et valeur
+            string[] actions = action.Split(',');
 
-        for (int i = 0; i < maxAttempts; i++)
-        {
-            Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
-            randomDirection.y = 0; 
-            spawnPosition = playerTransform.position + randomDirection;
-            spawnPosition.y = playerTransform.position.y+1; // Assurez-vous que l'objet est au même niveau que le joueur
-
-            // Vérifiez si la position est libre
-            Collider[] colliders = Physics.OverlapSphere(spawnPosition, checkRadius, GroundLayer);
-            if (colliders.Length == 0)
+            if (actions.Length == 2)
             {
-                positionFound = true;
-                break;
+                string portalAction = actions[0];
+                int portalValue;
+
+                // Tenter de convertir le deuxième élément en entier
+                if (int.TryParse(actions[1], out portalValue))
+                {
+                    // Appeler la méthode de spawn avec les arguments
+                    SpawnObjectNearPlayer(portalAction, portalValue);
+                }
+                else
+                {
+                    Debug.LogError($"Erreur : Impossible de convertir '{actions[1]}' en entier.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Erreur : La chaîne retournée par getPortalAction() n'a pas le bon format !");
             }
         }
+    }
+    public void SpawnObjectNearPlayer(string calcule, int valeurPortail)
+    {
+        Vector3 spawnPosition = Vector3.zero;
+        int nbSoldat = countSoldat.Instance.getNombreSoldat();
 
-        if (positionFound)
+        if (calcule == "+")
         {
-            GameObject newObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
-            newObject.transform.SetParent(groupSoldatTransform);
+            for (int i = 0; i < valeurPortail; i++)
+            {
+                Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
+                randomDirection.y = 0;
+                spawnPosition = playerTransform.position + randomDirection;
+                spawnPosition.y = playerTransform.position.y + 0.5f;
+
+                GameObject newObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
+                newObject.transform.SetParent(playerTransform);
+            }
         }
-        else
+        else if (calcule == "x")
         {
-            Debug.Log("Impossible de trouver une position libre après plusieurs tentatives.");
+            int nbSoldatCible = nbSoldat * valeurPortail;
+            nbSoldatCible = nbSoldatCible - nbSoldat;
+            for (int i = 0; i < nbSoldatCible; i++)
+            {
+                Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
+                randomDirection.y = 0;
+                spawnPosition = playerTransform.position + randomDirection;
+                spawnPosition.y = playerTransform.position.y + 0.5f;
+
+                GameObject newObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
+                newObject.transform.SetParent(playerTransform);
+            }
         }
     }
 }

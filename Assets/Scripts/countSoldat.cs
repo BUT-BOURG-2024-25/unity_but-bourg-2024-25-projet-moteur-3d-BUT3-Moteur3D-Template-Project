@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class countSoldat : MonoBehaviour
+public class countSoldat : Singleton<countSoldat>
 {
     [SerializeField]
     private TextMeshProUGUI soldatCountText;
@@ -24,6 +24,11 @@ public class countSoldat : MonoBehaviour
 
     private void CountSoldats()
     {
+        soldatCountText.text = getNombreSoldat().ToString();
+    }
+
+    public int getNombreSoldat()
+    {
         soldatCount = 0;
         foreach (Transform child in transform)
         {
@@ -32,6 +37,6 @@ public class countSoldat : MonoBehaviour
                 soldatCount++;
             }
         }
-        soldatCountText.text = soldatCount.ToString();
+        return soldatCount;
     }
 }

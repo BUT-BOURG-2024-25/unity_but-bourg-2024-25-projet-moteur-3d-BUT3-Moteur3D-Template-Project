@@ -5,6 +5,7 @@ using UnityEngine;
 public class LineGenerator : MonoBehaviour
 {
     public GameObject solPrefab; // Le préfab du sol
+    public GameObject soldat; // Le préfab du group de soldat
     public float segmentLength = 20f; // Longueur de chaque segment
     public float spawnDistance = 10f; // Distance après laquelle un nouveau segment est généré
     public float deleteDistance = 10f; // Distance avant laquelle les segments sont supprimés (plus tôt qu'avant)
@@ -51,7 +52,7 @@ public class LineGenerator : MonoBehaviour
     void MoveCamera()
     {
         // Déplacer la caméra
-        cameraTransform.Translate(Vector3.forward * 5f * Time.deltaTime); // 5f est la vitesse de la caméra
+        cameraTransform.Translate(Vector3.forward * 10f * Time.deltaTime); // 5f est la vitesse de la caméra
     }
 
     void ManageLine()

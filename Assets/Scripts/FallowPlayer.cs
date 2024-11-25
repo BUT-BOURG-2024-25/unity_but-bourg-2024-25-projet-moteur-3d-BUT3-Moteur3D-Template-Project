@@ -5,7 +5,7 @@ using UnityEngine;
 public class FallowPlayer : MonoBehaviour
 {
     [SerializeField]
-    private float speed = 2;
+    private float speed = 5;
 
     private GameObject player;
     private Vector3 direction;
