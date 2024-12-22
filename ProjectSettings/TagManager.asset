@@ -7,11 +7,13 @@ TagManager:
   - Soldat
   - Portal
   - SoldatNumber
+  - Enemy
+  - Ally
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - 
   - Water
   - UI
   - soldat
