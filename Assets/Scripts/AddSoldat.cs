@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Search;
 using UnityEngine;
+
 public class AddSoldat : MonoBehaviour
 {
     [SerializeField]
@@ -26,6 +27,7 @@ public class AddSoldat : MonoBehaviour
     {
         playerTransform = GameObject.FindWithTag("Player").transform;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Portal"))
@@ -58,10 +60,25 @@ public class AddSoldat : MonoBehaviour
             }
         }
     }
+
     public void SpawnObjectNearPlayer(string calcule, int valeurPortail)
     {
+        if (objectToSpawn == null)
+        {
+            Debug.LogWarning("objectToSpawn est null, tentative de rechargement...");
+            objectToSpawn = Resources.Load<GameObject>("Soldat");
+            if (objectToSpawn == null)
+            {
+                Debug.LogError("Impossible de charger le prefab Soldat !");
+                return;
+            }
+        }
+
+
+
         Vector3 spawnPosition = Vector3.zero;
         int nbSoldat = countSoldat.Instance.getNombreSoldat();
+        Debug.Log($"[DEBUG] calcule={calcule}, valeurPortail={valeurPortail}, nbSoldat={nbSoldat}, objectToSpawn={objectToSpawn}");
 
         if (calcule == "+")
         {
@@ -75,12 +92,13 @@ public class AddSoldat : MonoBehaviour
                 GameObject newObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
                 newObject.transform.SetParent(playerTransform);
             }
+            Debug.Log($"{valeurPortail} soldats ajoutés.");
         }
         else if (calcule == "x")
         {
             int nbSoldatCible = nbSoldat * valeurPortail;
-            nbSoldatCible = nbSoldatCible - nbSoldat;
-            for (int i = 0; i < nbSoldatCible; i++)
+            int nbToAdd = nbSoldatCible - nbSoldat;
+            for (int i = 0; i < nbToAdd; i++)
             {
                 Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
                 randomDirection.y = 0;
@@ -90,6 +108,28 @@ public class AddSoldat : MonoBehaviour
                 GameObject newObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
                 newObject.transform.SetParent(playerTransform);
             }
+            Debug.Log($"{nbToAdd} soldats ajoutés.");
+        }
+        else if (calcule == "-")
+        {
+            int nbSoldatToRemove = Mathf.Min(valeurPortail, nbSoldat);
+            int removedCount = 0;
+            foreach (Transform child in playerTransform)
+            {
+                if (child.CompareTag("Soldat"))
+                {
+                    Debug.Log($"Destruction du soldat : {child.name}");
+                    Destroy(child.gameObject);
+                    removedCount++;
+                    if (removedCount >= nbSoldatToRemove)
+                    {
+                        break;
+                    }
+                }
+            }
+            Debug.Log($"{nbSoldatToRemove} soldats retirés.");
         }
     }
+
+
 }

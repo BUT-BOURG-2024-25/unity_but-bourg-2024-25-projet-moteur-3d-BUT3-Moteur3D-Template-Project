@@ -25,7 +25,7 @@ public class SpawnSoldat : MonoBehaviour
             Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
 
             // Forcer la hauteur (y) à une valeur fixe
-            spawnPosition.y = 0.5f; // Exemple : 0 pour le sol
+            spawnPosition.y = 0.5f; 
 
             // Appeler la fonction pour spawn le groupe de soldats
             SpawnSoldatGroup(spawnPosition);
