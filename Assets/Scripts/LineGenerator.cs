@@ -52,7 +52,7 @@ public class LineGenerator : MonoBehaviour
     void MoveCamera()
     {
         // Déplacer la caméra
-        cameraTransform.Translate(Vector3.forward * 10f * Time.deltaTime); // 5f est la vitesse de la caméra
+        cameraTransform.Translate(Vector3.forward * 12f * Time.deltaTime); // Vitesse ajustée à 6f
     }
 
     void ManageLine()
