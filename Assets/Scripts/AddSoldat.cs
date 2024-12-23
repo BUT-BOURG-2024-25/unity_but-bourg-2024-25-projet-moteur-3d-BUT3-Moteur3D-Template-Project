@@ -82,22 +82,36 @@ public class AddSoldat : MonoBehaviour
 
         if (calcule == "+")
         {
-            for (int i = 0; i < valeurPortail; i++)
+            if (nbSoldat + valeurPortail <= 200)
             {
-                Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
-                randomDirection.y = 0;
-                spawnPosition = playerTransform.position + randomDirection;
-                spawnPosition.y = playerTransform.position.y + 0.5f;
+                for (int i = 0; i < valeurPortail; i++)
+                {
+                    Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
+                    randomDirection.y = 0;
+                    spawnPosition = playerTransform.position + randomDirection;
+                    spawnPosition.y = playerTransform.position.y + 0.5f;
 
-                GameObject newObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
-                newObject.transform.SetParent(playerTransform);
+                    GameObject newObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
+                    newObject.transform.SetParent(playerTransform);
+                }
+                Debug.Log($"{valeurPortail} soldats ajoutés.");
             }
-            Debug.Log($"{valeurPortail} soldats ajoutés.");
         }
         else if (calcule == "x")
         {
             int nbSoldatCible = nbSoldat * valeurPortail;
-            int nbToAdd = nbSoldatCible - nbSoldat;
+
+            int nbToAdd = 0;
+            if (nbSoldatCible > 200)
+            {
+                nbToAdd = 0;
+            }
+            else
+            {
+                nbToAdd = nbSoldatCible - nbSoldat;
+            }
+
+            
             for (int i = 0; i < nbToAdd; i++)
             {
                 Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
