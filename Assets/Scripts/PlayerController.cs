@@ -13,7 +13,13 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     public float Gravity = -20;
     
+    public Animator animator;
+    
     public float forwardSpeed;
+    public float maxSpeed;
+    public PlayerManager playerManager;
+    
+    
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -23,17 +29,34 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!PlayerManager.isGameStarted)
+        {
+            return;
+        }
+
+        if (forwardSpeed < maxSpeed)
+        {
+            forwardSpeed+= 0.01f * Time.deltaTime;
+        }
+        
+        
+        animator.SetFloat("MovePlayer",forwardSpeed);
         direction.z = forwardSpeed;
         direction.y += Gravity * Time.deltaTime;
         if (controller.isGrounded)
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow) || SwipeManager.swipeUp)
             {
                 Jump();
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || SwipeManager.swipeDown)
+        {
+            StartCoroutine(Slide());
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow) || SwipeManager.swipeRight)
         {
             desiredLane++;
             if (desiredLane == 3)
@@ -42,7 +65,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || SwipeManager.swipeLeft)
         {
             desiredLane--;
             if (desiredLane == -1)
@@ -80,6 +103,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!PlayerManager.isGameStarted)
+        {
+            return;
+        }
         controller.Move(direction * Time.fixedDeltaTime);
     }
 
@@ -91,9 +118,23 @@ public class PlayerController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.transform.CompareTag("Obstacle"))
+        if (playerManager != null)
         {
-            PlayerManager.GameOver = true;
+            playerManager.HandleCollision(hit.transform);
         }
+    }
+
+
+
+    private IEnumerator Slide()
+    {
+        animator.SetBool("isSliding", true);
+        controller.center = new Vector3(0, +0.5f, 0);
+        controller.height = 1;
+        yield return new WaitForSeconds(1f);
+        controller.center = new Vector3(0, 1, 0);
+        controller.height = 2;
+        animator.SetBool("isSliding", false);
+        
     }
 }
