@@ -9,17 +9,28 @@ public class countSoldat : Singleton<countSoldat>
     private TextMeshProUGUI soldatCountText;
 
     private int soldatCount;
+    private GameManager gameManager; // Référence au GameManager
 
-    // Start is called before the first frame update
     void Start()
     {
+        // Récupérer la référence du GameManager
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+
         CountSoldats();
     }
 
-    // Update is called once per frame
     void Update()
     {
         CountSoldats();
+
+        // Si le nombre de soldats atteint 0, déclencher la fin de la partie
+        if (getNombreSoldat() == 0)
+        {
+            if (gameManager != null)
+            {
+                gameManager.GameOver();
+            }
+        }
     }
 
     private void CountSoldats()

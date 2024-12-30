@@ -43,6 +43,32 @@ public class LineGenerator : MonoBehaviour
         }
     }
 
+    public void Initialize()
+    {
+        cameraTransform = Camera.main.transform; // Assurez-vous que la caméra est bien attribuée
+        segments = new List<GameObject>();
+        portalManagers = new List<PortalManager>();
+
+        // Recréez la ligne de départ
+        for (int i = 0; i < numberOfSegments; i++)
+        {
+            Vector3 spawnPosition = new Vector3(0, 0, i * segmentLength);
+            GameObject newSegment = Instantiate(solPrefab, spawnPosition, Quaternion.identity);
+            segments.Add(newSegment);
+
+            PortalManager portalManager = newSegment.GetComponent<PortalManager>();
+            if (portalManager != null)
+            {
+                portalManagers.Add(portalManager);
+                Vector3 portalPosition1 = newSegment.transform.position + new Vector3(-1.1f, 0.5f, 0);
+                Vector3 portalPosition2 = newSegment.transform.position + new Vector3(1.1f, 0.5f, 0);
+                portalManager.SpawnPortal(portalPosition1);
+                portalManager.SpawnPortal(portalPosition2);
+            }
+        }
+    }
+
+
     void Update()
     {
         MoveCamera();

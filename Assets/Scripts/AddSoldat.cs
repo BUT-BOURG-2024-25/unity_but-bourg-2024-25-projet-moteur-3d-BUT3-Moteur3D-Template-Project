@@ -111,7 +111,6 @@ public class AddSoldat : MonoBehaviour
                 nbToAdd = nbSoldatCible - nbSoldat;
             }
 
-            
             for (int i = 0; i < nbToAdd; i++)
             {
                 Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
