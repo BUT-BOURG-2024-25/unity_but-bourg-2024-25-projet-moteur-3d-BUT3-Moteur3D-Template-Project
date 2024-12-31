@@ -9,7 +9,7 @@ public class Ally : MonoBehaviour
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.Die();
+                //enemy.Die();
             }
         }
     }

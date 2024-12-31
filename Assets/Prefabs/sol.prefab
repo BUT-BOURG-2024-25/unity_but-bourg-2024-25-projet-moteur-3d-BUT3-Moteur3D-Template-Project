@@ -332,5 +332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalPrefab: {fileID: 7337450765464117980, guid: 02f899052f22692459454f255da9b215, type: 3}
+  enemyPrefab: {fileID: 7220298999039699248, guid: edfdecce5bcb24e4b976b8617f97bbab, type: 3}
   portalSpacing: 2
   numberOfPortals: 2
+  enemyCount: 5

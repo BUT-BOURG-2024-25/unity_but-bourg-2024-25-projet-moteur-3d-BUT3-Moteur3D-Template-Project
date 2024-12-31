@@ -21,7 +21,7 @@ public class PlayerTest : MonoBehaviour
         transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
 
         // Debugging de la position et de la vitesse
-        Debug.Log($"Lateral Speed: {lateralSpeed}, Current X: {transform.position.x}, Target X: {targetPosition.x}");
+        //Debug.Log($"Lateral Speed: {lateralSpeed}, Current X: {transform.position.x}, Target X: {targetPosition.x}");
 
         // Déplacement progressif sur l'axe X uniquement
         if (lateralSpeed > 0) // Se déplacer uniquement si la vitesse latérale est > 0

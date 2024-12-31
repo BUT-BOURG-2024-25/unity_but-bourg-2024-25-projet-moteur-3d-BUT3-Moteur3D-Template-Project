@@ -1,26 +1,47 @@
+
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public void OnCollisionEnter(Collision collision)
+    public float followSpeed = 7f; // Vitesse individuelle de l'ennemi
+    private Vector3 targetPosition; // Position cible assignée par le EnemyGroup
+
+    void Update()
     {
-        if (collision.gameObject.CompareTag("Ally"))
+        // Si une position cible est définie, se déplacer vers cette position
+        if (targetPosition != Vector3.zero)
         {
-            Ally ally = collision.gameObject.GetComponent<Ally>();
-            if (ally != null)
-            {
-                ally.Die();
-            }
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            transform.position += direction * followSpeed * Time.deltaTime;
         }
     }
 
-    public void Die()
+    // Mise à jour de la position cible par le EnemyGroup
+    public void UpdateTarget(Vector3 newTargetPosition)
     {
-        EnemyGroup group = GetComponentInParent<EnemyGroup>();
-        if (group != null)
+        targetPosition = newTargetPosition;
+    }
+
+    // Gestion des collisions
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Soldat"))
         {
-            group.RemoveEnemy(gameObject);
+            // Détruire le soldat touché
+            Destroy(collision.gameObject);
+
+            // Supprimer cet ennemi du groupe
+            EnemyGroup enemyGroup = transform.parent.GetComponent<EnemyGroup>();
+            if (enemyGroup != null)
+            {
+                enemyGroup.RemoveEnemy(gameObject);
+            }
+
+            // Détruire l'ennemi lui-même
+            Destroy(gameObject);
+
+            // Optionnel : Ajouter des effets visuels/sonores
+            Debug.Log("Collision : Soldat et ennemi détruits !");
         }
-        Destroy(gameObject);
     }
 }

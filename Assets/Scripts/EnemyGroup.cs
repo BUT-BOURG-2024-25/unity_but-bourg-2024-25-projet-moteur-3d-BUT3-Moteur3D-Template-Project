@@ -1,74 +1,56 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyGroup : MonoBehaviour
 {
-    public List<GameObject> enemies = new List<GameObject>();
-    public Transform target;
-    public float followSpeed = 2f;
-    public GameObject enemyPrefab;
-    public int initialEnemyCount = 2;
-    public float spawnInterval = 5f;
-    private int enemyCount;
+    public float groupSpeed = 5f; // Vitesse du groupe
+    public List<GameObject> enemies = new List<GameObject>(); // Liste des ennemis dans ce groupe
+    private Transform target; // Référence au groupeSoldat
+
     void Start()
     {
-        enemyCount = initialEnemyCount;
-        StartCoroutine(SpawnEnemies());
-        //foreach (Transform child in transform)
-        //{
-        //    enemies.Add(child.gameObject);
-        //}
+        // Trouver le groupeSoldat dans la scène
+        GameObject targetObject = GameObject.FindWithTag("Player");
+        if (targetObject != null)
+        {
+            target = targetObject.transform;
+        }
+        else
+        {
+            Debug.LogError("Aucun GameObject avec le tag 'Player' trouvé !");
+        }
     }
 
     void Update()
     {
-        if (target != null)
-        {
-            Vector3 direction = (target.position - transform.position).normalized;
-            transform.position += direction * followSpeed * Time.deltaTime;
-        }
+        if (target == null) return;
 
-        if (enemies.Count == 0)
+        // Déplace le groupe vers le groupeSoldat
+        Vector3 direction = (target.position - transform.position).normalized;
+        transform.position += direction * groupSpeed * Time.deltaTime;
+
+        // S'assure que tous les ennemis suivent aussi cette position
+        foreach (GameObject enemy in enemies)
         {
-            Destroy(gameObject);
+            if (enemy != null)
+            {
+                Enemy enemyScript = enemy.GetComponent<Enemy>();
+                if (enemyScript != null)
+                {
+                    enemyScript.UpdateTarget(target.position);
+                }
+            }
         }
+    }
+
+    public void AddEnemy(GameObject enemy)
+    {
+        enemies.Add(enemy);
     }
 
     public void RemoveEnemy(GameObject enemy)
     {
         enemies.Remove(enemy);
         Destroy(enemy);
-    }
-    IEnumerator SpawnEnemies()
-    {
-        while (true)
-        {
-            for (int i = 0; i < enemyCount; i++)
-            {
-                Vector3 spawnPosition = CalculatePyramidPosition(i, enemyCount);
-                GameObject newEnemy = Instantiate(enemyPrefab, transform);
-                newEnemy.transform.localPosition = spawnPosition;
-                enemies.Add(newEnemy);
-            }
-
-            Debug.Log($"Spawned {enemyCount} enemies in EnemyGroup");
-            enemyCount++;
-            yield return new WaitForSeconds(spawnInterval);
-        }
-    }
-
-    private Vector3 CalculatePyramidPosition(int index, int totalEnemies)
-    {
-        int row = Mathf.CeilToInt((Mathf.Sqrt(8 * index + 1) - 1) / 2); 
-        int enemiesInRow = row; 
-        int positionInRow = index - (row * (row - 1)) / 2; 
-        float spacing = 2f;
-
-        return new Vector3(
-            (positionInRow - (enemiesInRow - 1) / 2f) * spacing,
-            0,
-            -row * spacing
-        );
     }
 }

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   solPrefab: {fileID: 6038431428744447978, guid: 28656e9055d4d4949adbe4b255543670, type: 3}
+  trapPrefab: {fileID: 652837541970368948, guid: 8572e6a9964c79d40bcb1022c534f059, type: 3}
   segmentLength: 20
-  spawnDistance: 10
-  deleteDistance: -10
   numberOfSegments: 7
+  groupSoldat: {fileID: 0}

@@ -78,7 +78,7 @@ public class AddSoldat : MonoBehaviour
 
         Vector3 spawnPosition = Vector3.zero;
         int nbSoldat = countSoldat.Instance.getNombreSoldat();
-        Debug.Log($"[DEBUG] calcule={calcule}, valeurPortail={valeurPortail}, nbSoldat={nbSoldat}, objectToSpawn={objectToSpawn}");
+        //Debug.Log($"[DEBUG] calcule={calcule}, valeurPortail={valeurPortail}, nbSoldat={nbSoldat}, objectToSpawn={objectToSpawn}");
 
         if (calcule == "+")
         {
@@ -94,7 +94,7 @@ public class AddSoldat : MonoBehaviour
                     GameObject newObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
                     newObject.transform.SetParent(playerTransform);
                 }
-                Debug.Log($"{valeurPortail} soldats ajoutés.");
+                //Debug.Log($"{valeurPortail} soldats ajoutés.");
             }
         }
         else if (calcule == "x")
@@ -121,7 +121,7 @@ public class AddSoldat : MonoBehaviour
                 GameObject newObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
                 newObject.transform.SetParent(playerTransform);
             }
-            Debug.Log($"{nbToAdd} soldats ajoutés.");
+            //Debug.Log($"{nbToAdd} soldats ajoutés.");
         }
         else if (calcule == "-")
         {
@@ -131,7 +131,7 @@ public class AddSoldat : MonoBehaviour
             {
                 if (child.CompareTag("Soldat"))
                 {
-                    Debug.Log($"Destruction du soldat : {child.name}");
+                    //Debug.Log($"Destruction du soldat : {child.name}");
                     Destroy(child.gameObject);
                     removedCount++;
                     if (removedCount >= nbSoldatToRemove)
@@ -140,7 +140,7 @@ public class AddSoldat : MonoBehaviour
                     }
                 }
             }
-            Debug.Log($"{nbSoldatToRemove} soldats retirés.");
+            //Debug.Log($"{nbSoldatToRemove} soldats retirés.");
         }
     }
 

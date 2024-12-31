@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
         if (!isGameOver)
         {
             score += points;
-            Debug.Log($"Score ajouté : {points}, Score total : {score}");
+            //Debug.Log($"Score ajouté : {points}, Score total : {score}");
             UpdateScoreUI();
         }
     }
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         if (scoreText != null)
         {
             scoreText.text = "Score : " + score;
-            Debug.Log($"UI mise à jour : Score : {score}");
+            //Debug.Log($"UI mise à jour : Score : {score}");
         }
         else
         {
@@ -103,20 +103,25 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Redémarrage du jeu...");
 
+        // Reprendre le temps s'il est en pause
+        Time.timeScale = 1;
+
         // Sauvegarder le meilleur score avant de réinitialiser
         SaveBestScore();
 
-        // Supprimer tous les objets dans la scène sauf le GameManager
+        // Supprimer tous les objets inutiles dans la scène
         CleanUpScene();
 
+        // Réinitialiser les Singletons (si nécessaire)
         ResetSingletons();
 
-        // Réinitialiser la scène en recréant les objets essentiels
+        // Recréer les objets essentiels comme la caméra, la lumière, etc.
         CreateEssentialObjects();
 
         // Réinitialiser l'état du jeu
         InitializeGame();
     }
+
 
     private void ResetSingletons()
     {

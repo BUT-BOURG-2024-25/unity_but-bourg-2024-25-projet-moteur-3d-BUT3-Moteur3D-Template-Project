@@ -158,7 +158,7 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 0
-  objectToSpawn: {fileID: 6936123845553073408}
+  objectToSpawn: {fileID: 8495128831046789526, guid: b99d4372cd7420e448c81688b9e682e5, type: 3}
   spawnRadius: 2
   checkRadius: 1
   maxAttempts: 10
@@ -217,8 +217,8 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
