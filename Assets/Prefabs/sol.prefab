@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: -2726100517781475817}
   m_Layer: 3
   m_Name: sol
-  m_TagString: Untagged
+  m_TagString: Clonable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -332,7 +332,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalPrefab: {fileID: 7337450765464117980, guid: 02f899052f22692459454f255da9b215, type: 3}
-  redMaterial: {fileID: 2100000, guid: 12d718d6e760a2245a5ed02189a56024, type: 2}
-  blueMaterial: {fileID: 2100000, guid: a8710c9e45d148b4f916ba4d4903a1f1, type: 2}
   portalSpacing: 2
   numberOfPortals: 2

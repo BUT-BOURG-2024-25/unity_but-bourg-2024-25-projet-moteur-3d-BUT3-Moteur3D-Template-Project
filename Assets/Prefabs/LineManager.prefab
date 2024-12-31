@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2704298652851501122}
   - component: {fileID: 1015080280459455423}
-  - component: {fileID: 251633546524362148}
   m_Layer: 0
   m_Name: LineManager
   m_TagString: Untagged
@@ -46,22 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   solPrefab: {fileID: 6038431428744447978, guid: 28656e9055d4d4949adbe4b255543670, type: 3}
-  soldat: {fileID: 0}
   segmentLength: 20
   spawnDistance: 10
   deleteDistance: -10
   numberOfSegments: 7
---- !u!114 &251633546524362148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 631606537138636133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e28bbd8679e36b84d874ef6277d5d562, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soldatGroup: {fileID: 3819587076861059222, guid: ed8aabd9ebeeb7b43866280f941ba42f, type: 3}
-  distanceFromCamera: 10

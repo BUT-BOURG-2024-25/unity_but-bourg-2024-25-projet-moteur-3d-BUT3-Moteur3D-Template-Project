@@ -1,21 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnSoldat : MonoBehaviour
+public class PlayerSpawner : MonoBehaviour
 {
-    public GameObject soldatGroup; // Le prefab du groupe de soldats
-    public float distanceFromCamera = 10f; // Distance devant la caméra pour faire apparaître le groupe
+    public GameObject playerPrefab; // Le prefab du joueur (groupSoldat)
+    public float distanceFromCamera = 10f; // Distance devant la caméra pour faire apparaître le joueur
+    private GameObject currentPlayerInstance; // Référence au joueur actuel
 
-    // Spawn le groupe de soldats
-    public void SpawnSoldatGroup(Vector3 position)
+    // Méthode pour spawn le joueur
+    public void SpawnPlayer()
     {
-        Instantiate(soldatGroup, position, Quaternion.identity);
-    }
+        if (playerPrefab == null)
+        {
+            Debug.LogError("Le prefab du joueur (groupSoldat) n'est pas assigné !");
+            return;
+        }
 
-    // Start is called before the first frame update
-    public void Start()
-    {
+        if (currentPlayerInstance != null)
+        {
+            Destroy(currentPlayerInstance); // Détruire le joueur précédent s'il existe
+        }
+
         Camera mainCamera = Camera.main;
 
         if (mainCamera == null)
@@ -24,11 +28,18 @@ public class SpawnSoldat : MonoBehaviour
             return;
         }
 
+        // Position du spawn du joueur devant la caméra
         Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
-        spawnPosition.y = 0.5f; // Fixe la hauteur
-        SpawnSoldatGroup(spawnPosition);
+        spawnPosition.y = 0.5f; // Fixe la hauteur pour ne pas être sous le sol
+
+        // Instancier le joueur
+        currentPlayerInstance = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+        currentPlayerInstance.name = "Player"; // Renomme l'objet instancié
     }
 
-
-
+    // Méthode à appeler au début de la partie ou après un redémarrage
+    public void InitializePlayer()
+    {
+        SpawnPlayer();
+    }
 }

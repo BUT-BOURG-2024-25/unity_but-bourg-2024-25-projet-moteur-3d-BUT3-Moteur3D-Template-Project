@@ -5,7 +5,6 @@ using UnityEngine;
 public class LineGenerator : MonoBehaviour
 {
     public GameObject solPrefab; // Le préfab du sol
-    public GameObject soldat; // Le préfab du group de soldat
     public float segmentLength = 20f; // Longueur de chaque segment
     public float spawnDistance = 10f; // Distance après laquelle un nouveau segment est généré
     public float deleteDistance = 10f; // Distance avant laquelle les segments sont supprimés (plus tôt qu'avant)
@@ -17,6 +16,8 @@ public class LineGenerator : MonoBehaviour
 
     void Start()
     {
+
+        Debug.Log("LineGenerator Start");
         cameraTransform = Camera.main.transform; // Récupère la caméra principale
         segments = new List<GameObject>();
         portalManagers = new List<PortalManager>(); // Liste des gestionnaires de portails
@@ -89,6 +90,7 @@ public class LineGenerator : MonoBehaviour
             GameObject segment = segments[i];
 
             // Si la caméra est à une certaine distance avant le segment, on le supprime
+
             if (segment.transform.position.z + segmentLength < cameraTransform.position.z - deleteDistance)
             {
                 // Supprimer les portails associés au segment

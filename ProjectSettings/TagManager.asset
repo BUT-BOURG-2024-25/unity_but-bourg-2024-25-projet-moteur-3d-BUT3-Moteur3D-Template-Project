@@ -9,6 +9,7 @@ TagManager:
   - SoldatNumber
   - Enemy
   - Ally
+  - Clonable
   layers:
   - Default
   - TransparentFX

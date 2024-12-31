@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public TMPro.TextMeshProUGUI scoreText; // Lien vers le texte du score
     public TMPro.TextMeshProUGUI bestScoreText; // Lien vers le texte du meilleur score (Game Over)
     public GameObject gameOverUI; // Lien vers l'écran de Game Over
+    public PlayerSpawner playerSpawner;
 
     private Coroutine scoreCoroutine;
 
@@ -43,6 +44,18 @@ public class GameManager : MonoBehaviour
 
     private void InitializeGame()
     {
+
+        Debug.Log("Réinitialisation de la partie...");
+
+        if (playerSpawner != null)
+        {
+            playerSpawner.InitializePlayer();
+        }
+        else
+        {
+            Debug.LogError("PlayerSpawner non assigné dans le GameManager !");
+        }
+
         isGameOver = false;
         score = 0;
         UpdateScoreUI(); // Met à jour l'affichage initial du score
@@ -96,11 +109,22 @@ public class GameManager : MonoBehaviour
         // Supprimer tous les objets dans la scène sauf le GameManager
         CleanUpScene();
 
+        ResetSingletons();
+
         // Réinitialiser la scène en recréant les objets essentiels
         CreateEssentialObjects();
 
         // Réinitialiser l'état du jeu
         InitializeGame();
+    }
+
+    private void ResetSingletons()
+    {
+        // Réinitialisez vos Singletons manuellement si nécessaire
+        if (countSoldat.Instance != null)
+        {
+            Destroy(countSoldat.Instance.gameObject);
+        }
     }
 
     private void EnsureEssentialObjectsExist()
@@ -147,34 +171,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Création des objets essentiels...");
 
-        // Caméra
-        if (mainCameraPrefab != null)
-        {
-            Instantiate(mainCameraPrefab, Vector3.zero, Quaternion.identity);
-            Debug.Log("Main Camera créée.");
-        }
-
-        // Lumière directionnelle
-        if (directionalLightPrefab != null)
-        {
-            Instantiate(directionalLightPrefab, Vector3.zero, Quaternion.identity);
-            Debug.Log("Directional Light créée.");
-        }
-
-        // UI
-        if (uiPrefab != null)
-        {
-            Instantiate(uiPrefab, Vector3.zero, Quaternion.identity);
-            Debug.Log("UI créée.");
-        }
-
-        // EventSystem
-        if (eventSystemPrefab != null)
-        {
-            Instantiate(eventSystemPrefab, Vector3.zero, Quaternion.identity);
-            Debug.Log("EventSystem créé.");
-        }
-
         // LineManager
         if (lineManagerPrefab != null)
         {
@@ -186,25 +182,13 @@ public class GameManager : MonoBehaviour
     private void CleanUpScene()
     {
         Debug.Log("Nettoyage de la scène...");
-
-        // Liste temporaire pour éviter les erreurs lors de la suppression
-        List<GameObject> objectsToDestroy = new List<GameObject>();
-
-        // Parcourir tous les objets actifs dans la scène
-        foreach (GameObject obj in FindObjectsOfType<GameObject>())
+        foreach (var obj in FindObjectsOfType<GameObject>())
         {
-            if (obj != this.gameObject) // Ne pas supprimer le GameManager lui-même
+            if (obj.CompareTag("Clonable") || obj.CompareTag("Soldat") || obj.CompareTag("Portal")) // Supprimer les objets inutiles
             {
-                objectsToDestroy.Add(obj);
+                Destroy(obj);
             }
         }
-
-        // Supprimer tous les objets enregistrés
-        foreach (GameObject obj in objectsToDestroy)
-        {
-            Destroy(obj);
-        }
-
         Debug.Log("Nettoyage terminé.");
     }
 

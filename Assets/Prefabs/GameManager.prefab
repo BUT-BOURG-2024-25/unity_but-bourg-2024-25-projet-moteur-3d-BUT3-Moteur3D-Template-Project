@@ -44,7 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20730757d4e66b848a1f009256e6eef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
-  gameOverPanel: {fileID: 0}
-  bestScoreText: {fileID: 0}
-  replayButton: {fileID: 0}
+  mainCameraPrefab: {fileID: 6310606114497303152, guid: 83a7a0aa5cb79214eabaf30722e3d380, type: 3}
+  directionalLightPrefab: {fileID: 8351710593760787237, guid: 415af7f34eea4d6438f80610b3bd29a6, type: 3}
+  uiPrefab: {fileID: 5195305295176043054, guid: 3d04c897636e8a64b871175160e872e9, type: 3}
+  eventSystemPrefab: {fileID: 7871571751270173554, guid: 85e2e36f31d01554897e783242859917, type: 3}
+  lineManagerPrefab: {fileID: 631606537138636133, guid: 5cb58e0641e20ec449264781550214d4, type: 3}
+  scoreText: {fileID: 7427238030965468754, guid: 81705b860f7687e4395064a27f714ea1, type: 3}
+  bestScoreText: {fileID: 6081954033049879757, guid: 44b196c09b43bc34787a0bcb20a45315, type: 3}
+  gameOverUI: {fileID: 4022673443165837003, guid: 3beecb6bb99fc7446abec84cc236efa6, type: 3}
